@@ -43,7 +43,7 @@ class Simulation:
         for action in actions_:
             action.perform()
 
-    def init(self):
+    def init_simulation(self):
         self.act(self.init_actions)
 
     def next_turn(self):
@@ -53,7 +53,7 @@ class Simulation:
         self.timer+=1
 
     def start_simulation(self):
-        self.init()
+        self.init_simulation()
         while True:
             try:
                 self.next_turn()
