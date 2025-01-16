@@ -53,19 +53,20 @@ class Map:
 
     #get entity as object or as its position
     def remove(self, entity_pos):
-        entity = self.map.pop(entity_pos)
+        if entity_pos not in self.map.keys():
+            return
 
+        entity = self.map.pop(entity_pos)
+        self.count[type(entity)]-=1
         self.empty_cells += 1
 
-        self.count[type(entity)]-=1
+
 
     def move(self, old_pos, new_pos):
         entity = self.get(old_pos)
-        try:
-            self.remove(old_pos)
-            self.add(entity, new_pos)
-        except KeyError:
-            print(1)
+        self.remove(old_pos)
+        self.add(entity, new_pos)
+
 
     def is_valid(self, pos):
         return  Vector2(0,0) <= pos < self.size

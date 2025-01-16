@@ -88,7 +88,8 @@ class RunCreatures(Action):
     def perform(self):
         creatures = self.map.get_entities(Creature)
         for creature in creatures:
-            creature.make_move()
+            if not creature.is_dead():
+                creature.make_move()
 
 
 class HitAll(Action):
