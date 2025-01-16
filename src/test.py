@@ -1,7 +1,11 @@
-import emoji
-from vector2 import *
-print(f" {emoji.emojize(":pig:")}2222")
+from entity import *
+def f(*args):
+    ar = []
+    for i in args:
+        ar.append(i)
 
-v = Vector2(2,2)
-ar = [v]
-print(ar)
+    return ar
+
+p = Rock()
+
+print(f(copy(p),p,copy(p)))
