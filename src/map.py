@@ -23,13 +23,29 @@ class Map:
             return None
         return self.map[position]
 
-    def get_entities(self, entity_type):
-        appropriate_entities = []
+    def get_entities(self, *entity_types):
+        appropriate_entities = [[] for i in range(len(entity_types))]
+
+        types_count = len(entity_types)
+
         for key in self.map.keys():
             entity = self.get(key)
-            if issubclass(type(entity),entity_type):
-                appropriate_entities.append(entity)
+            for it in range(types_count):
+                entity_type = entity_types[it]
+                if issubclass(type(entity),entity_type):
+                    appropriate_entities[it].append(entity)
+
+        if types_count == 1:
+            return appropriate_entities[0]
         return appropriate_entities
+
+    # def get_entities(self, entity_type):
+    #     appropriate_entities = []
+    #     for key in self.map.keys():
+    #         entity = self.get(key)
+    #         if issubclass(type(entity),entity_type):
+    #             appropriate_entities.append(entity)
+    #     return appropriate_entities
 
     def get_count(self, entity_type):
         if entity_type not in self.count.keys():

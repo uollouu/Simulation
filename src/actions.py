@@ -90,12 +90,18 @@ class RunCreatures(Action):
     def __init__(self, map_):
         super().__init__(map_)
 
-    def perform(self):
-        creatures = self.map.get_entities(Creature)
+    #!!!
+    @staticmethod
+    def make_moves(creatures):
         for creature in creatures:
             if not creature.is_dead():
                 creature.make_move()
 
+    def perform(self):
+        predators, herbivores = self.map.get_entities(Predator, Herbivore)
+        self.make_moves(herbivores)
+        self.make_moves(predators)
+    #!!!
 
 class HitAll(Action):
 
