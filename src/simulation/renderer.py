@@ -1,5 +1,3 @@
-from colorama import *
-
 from .vector2 import Vector2
 from .entity import EMPTY_SPRITE
 
