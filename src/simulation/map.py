@@ -10,15 +10,16 @@ def mix_list(list_):
 class Map:
 
     def __init__(self, size):
-        self.map = {}
+        self.__map = {}
+        self.__count = {}
         self.size = size
         self.empty_cells = size.x*size.y
-        self.count = {}
+
 
     def get(self, position):
         if self.is_empty(position):
             return None
-        return self.map[position]
+        return self.__map[position]
 
     #get list of lists of entities for each type
     def get_entities(self, *entity_types):
@@ -26,7 +27,7 @@ class Map:
 
         types_count = len(entity_types)
 
-        for key in self.map.keys():
+        for key in self.__map.keys():
             entity = self.get(key)
             for it in range(types_count):
                 entity_type = entity_types[it]
@@ -38,30 +39,30 @@ class Map:
         return appropriate_entities
 
     def get_count(self, entity_type):
-        if entity_type not in self.count.keys():
+        if entity_type not in self.__count.keys():
             return 0
-        return self.count[entity_type]
+        return self.__count[entity_type]
 
     def is_empty(self, position):
-        return position not in self.map
+        return position not in self.__map
 
     def add(self, entity, position):
-        self.map[position] = entity
+        self.__map[position] = entity
         entity.set_position(position)
         entity.set_map(self)
         self.empty_cells -= 1
 
         entity_type = type(entity)
-        if entity_type not in self.count:
-            self.count[entity_type] = 1
-        else: self.count[entity_type] += 1
+        if entity_type not in self.__count:
+            self.__count[entity_type] = 1
+        else: self.__count[entity_type] += 1
 
     def remove(self, entity_pos):
-        if entity_pos not in self.map.keys():
+        if entity_pos not in self.__map.keys():
             return
 
-        entity = self.map.pop(entity_pos)
-        self.count[type(entity)]-=1
+        entity = self.__map.pop(entity_pos)
+        self.__count[type(entity)]-=1
         self.empty_cells += 1
 
     def move(self, old_pos, new_pos):
@@ -93,6 +94,9 @@ class Map:
 
                     if count == 0: return
 
+    #returns target position and path from anchor to target
+    #if target_type specified
+    #otherwise returns list of paths to each available empty cell
     def find_target(self, anchor_pos, scope, target_type=type(None)):
         max_distance = Vector2(scope, scope)
         current_pos = anchor_pos
