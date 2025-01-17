@@ -12,19 +12,19 @@ class Simulation:
         self.timer = 0
         self.is_inited = False
 
-        self.init_actions = [
+        self.init_actions = (
             AddRocks(self.map),
             AddTrees(self.map),
             AddGrass(self.map),
             AddPredators(self.map),
             AddHerbivores(self.map)
-        ]
-        self.turn_actions = [
+        )
+        self.turn_actions = (
             RunCreatures(self.map),
             HitAll(self.map),
             GrassAddOptionally(self.map),
             HerbivoresAddOptionally(self.map)
-        ]
+        )
 
     @staticmethod
     def act(actions_):
