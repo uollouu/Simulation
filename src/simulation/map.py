@@ -1,5 +1,5 @@
-from copy import *
-from random import *
+from copy import copy
+from random import randint, random
 
 from .vector2 import Vector2
 
@@ -20,6 +20,7 @@ class Map:
             return None
         return self.map[position]
 
+    #get list of lists of entities for each type
     def get_entities(self, *entity_types):
         appropriate_entities = [[] for i in range(len(entity_types))]
 
@@ -55,7 +56,6 @@ class Map:
             self.count[entity_type] = 1
         else: self.count[entity_type] += 1
 
-    #get entity as object or as its position
     def remove(self, entity_pos):
         if entity_pos not in self.map.keys():
             return
@@ -69,6 +69,7 @@ class Map:
         self.remove(old_pos)
         self.add(entity, new_pos)
 
+    #check if position is in map bounds
     def is_valid(self, pos):
         return  Vector2(0,0) <= pos < self.size
 

@@ -1,5 +1,7 @@
 __pycache__/
 __init__.py
+.idea/
+.venv/
 
 /src/simulation/test.py
 /src/simulation/__init__.py
