@@ -20,8 +20,8 @@ TREE_SPRITE      = Back.LIGHTGREEN_EX + " T " + Back.RESET
 class Entity(ABC):
 
     def __init__(self, map_=None, position=None):
-        self.position = copy(position)
         self.map = map_
+        self.position = copy(position)
 
     @classmethod
     @property
