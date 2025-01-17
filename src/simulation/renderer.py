@@ -1,14 +1,12 @@
+from colorama import *
 
+from .vector2 import *
 
-
-from vector2 import *
-from consts import *
-from entity import *
 
 
 EMPTY_SPRITE = Back.BLACK + " E " + Back.RESET
 
-class Matrix():
+class Matrix:
 
     def __init__(self, size):
         self.size = size
@@ -35,11 +33,11 @@ class Matrix():
         self.pointer = Vector2(0,0)
 
 
-class Renderer():
+class Renderer:
 
-    def __init__(self, map):
-        self.map = map
-        self.matrix = Matrix(map.size)
+    def __init__(self, map_):
+        self.map = map_
+        self.matrix = Matrix(map_.size)
 
     def display(self):
         print()
@@ -56,9 +54,9 @@ class Renderer():
         return cell
 
     def render_map(self):
-        map = self.map
-        for y in range(map.size.y):
-            for x in range(map.size.x):
+        map_ = self.map
+        for y in range(map_.size.y):
+            for x in range(map_.size.x):
                 position = Vector2(x,y)
                 self.matrix.add(self.get_rendered_cell(position))
         self.matrix.clear_pointer()

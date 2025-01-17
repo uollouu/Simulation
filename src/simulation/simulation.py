@@ -1,19 +1,10 @@
-from multiprocessing import Process
 import time
 
 
-from map import *
-from entity import *
-from vector2 import *
-from renderer import *
-from consts import *
-from actions import *
-
-
-
-
-
-
+from .vector2 import *
+from .map import *
+from .renderer import *
+from .actions import *
 
 
 class Simulation:
@@ -53,7 +44,9 @@ class Simulation:
         self.timer+=1
 
     def start_simulation(self):
-        self.init_simulation()
+        if not self.is_inited:
+            self.init_simulation()
+
         while True:
             try:
                 self.next_turn()
@@ -61,17 +54,5 @@ class Simulation:
             except KeyboardInterrupt:
                 break
 
-
-
-
-def main():
-    simulation = Simulation()
-    simulation.start_simulation()
-
-
-
-
-if __name__ == "__main__":
-    main()
 
 

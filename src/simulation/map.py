@@ -1,8 +1,7 @@
 from copy import *
 from random import *
-from vector2 import *
-from entity import *
-from consts import *
+
+from .vector2 import *
 
 
 def mix_list(list_):
@@ -87,10 +86,10 @@ class Map:
     def is_valid(self, pos):
         return  Vector2(0,0) <= pos < self.size
 
-    def add_randomly(self, entity, count):
+    def add_randomly(self, entity, count=1):
         if count > self.empty_cells:
+            if self.empty_cells == 0: return
             count = self.empty_cells
-            if count == 0: return
 
         chance = float(count) / self.empty_cells
         while count > 0:

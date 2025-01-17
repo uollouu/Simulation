@@ -1,12 +1,13 @@
 from abc import ABC, abstractmethod
 from copy import *
-from colorama import Back
-import emoji
-
 from random import *
-from consts import *
-from vector2 import *
 
+from colorama import Back
+
+from .vector2 import *
+
+
+#by default each creature's scope will be speed*ratio
 SCOPE_TO_SPEED_RATIO = 3
 
 class Entity(ABC):
@@ -31,21 +32,20 @@ class Entity(ABC):
         self.map.remove(self.position)
 
 
-
-
-
 class Tree(Entity):
     sprite = Back.LIGHTGREEN_EX + " T " + Back.RESET
 
     def __init__(self, map_=None, position=None):
         super().__init__(map_, position)
 
+
 class Grass(Entity):
     sprite = Back.GREEN + " G " + Back.RESET
 
     def __init__(self, nutrients, map_=None, position=None):
-        super().__init__(nutrients, map_)
+        super().__init__(map_, position)
         self.nutrients = nutrients
+
 
 class Rock(Entity):
     sprite = Back.RED + " R " + Back.RESET
@@ -61,9 +61,10 @@ class Creature(Entity, ABC):
         self.max_health = self.health = health
         self.speed = speed
         self.scope = scope
-        if scope == 0: self.scope = self.speed * SCOPE_TO_SPEED_RATIO
-        self._is_alive = True
+        if scope == 0:
+            self.scope = self.speed * SCOPE_TO_SPEED_RATIO
 
+        self._is_alive = True
 
     @abstractmethod
     def make_move(self):
@@ -86,9 +87,6 @@ class Creature(Entity, ABC):
         else:
             self.move_to(path[self.speed])
 
-    def consume(self, entity, entity_nutrients):
-        self.heal(entity_nutrients)
-
     def reduce_health(self, points):
         self.health = max(0, self.health - points)
         if self.health == 0:
@@ -103,8 +101,6 @@ class Creature(Entity, ABC):
         return not self._is_alive
 
 
-
-
 class Predator(Creature):
     sprite = Back.BLUE + " P " + Back.RESET
 
@@ -114,9 +110,8 @@ class Predator(Creature):
 
     def attack(self, target):
         if target.health <= self.attack_power:
-            self.consume(target, target.max_health)
+            self.heal(target.max_health)
         target.reduce_health(self.attack_power)
-
 
     def make_move(self):
         res = self.map.find_target(self.position, self.scope, Herbivore)
@@ -152,7 +147,7 @@ class Herbivore(Creature):
 
         if self.position == path[-1]:
             target = self.map.get(target_pos)
-            self.consume(target, target.nutrients)
+            self.heal(target.nutrients)
             target.kill()
 
 

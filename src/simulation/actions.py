@@ -1,30 +1,8 @@
 from abc import ABC, abstractmethod
 
-from entity import *
-from map import *
 
-TURNS_CD = 1 #time between each map turn
-TURN_DAMAGE = 1 #damage to entities per turn
+from .config import *
 
-DEFAULT_MAP_SIZE = Vector2(20,20)
-
-# Default entities and their counts when add
-PREDATOR = Predator(100,3,20)
-PREDATORS_COUNT = 5
-
-HERBIVORE = Herbivore(100,2)
-HERBIVORES_COUNT = 5
-MIN_HERBIVORES_COUNT = 2
-
-GRASS = Grass(50)
-GRASS_COUNT = 50
-MIN_GRASS_COUNT = 5
-
-ROCK = Rock()
-ROCKS_COUNT = 50
-
-TREE = Tree()
-TREES_COUNT = 50
 
 class Action(ABC):
 

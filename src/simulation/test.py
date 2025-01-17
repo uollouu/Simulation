@@ -1,4 +1,5 @@
-from entity import *
+from .entity import *
+
 def f(*args):
     print(args)
     ar = []
