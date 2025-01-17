@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
-from copy import *
-from random import *
+from copy import copy
+from random import randint
 
 from colorama import Back
 

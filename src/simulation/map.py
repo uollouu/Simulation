@@ -1,7 +1,7 @@
 from copy import *
 from random import *
 
-from .vector2 import *
+from .vector2 import Vector2
 
 def mix_list(list_):
     ln = len(list_)

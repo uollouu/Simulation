@@ -20,7 +20,7 @@ class Vector2:
         return self.x == vector2.x and self.y == vector2.y
 
     def __str__(self):
-        return f"({self.x}, {self.y})"
+        return f"({self.x}; {self.y})"
 
     def __lt__(self, other):
         return self.x < other.x and self.y < other.y

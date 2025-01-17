@@ -1,8 +1,7 @@
 import time
 
-from .vector2 import *
-from .map import *
-from .renderer import *
+from .map import Map
+from .renderer import Renderer
 from .actions import *
 
 class Simulation:

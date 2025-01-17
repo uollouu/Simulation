@@ -1,4 +1,4 @@
-from .vector2 import *
+from .vector2 import Vector2
 from .entity import *
 
 TURNS_CD = 0.3 #time between each map turn
