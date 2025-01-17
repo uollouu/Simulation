@@ -1,10 +1,7 @@
 from colorama import *
 
 from .vector2 import *
-
-
-
-EMPTY_SPRITE = Back.BLACK + " E " + Back.RESET
+from .entity import EMPTY_SPRITE
 
 class Matrix:
 

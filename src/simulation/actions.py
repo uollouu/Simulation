@@ -1,8 +1,6 @@
 from abc import ABC, abstractmethod
 
-
 from .config import *
-
 
 class Action(ABC):
 
@@ -12,6 +10,7 @@ class Action(ABC):
     @abstractmethod
     def perform(self):
         pass
+
 
 class AddPredators(Action):
 
@@ -68,7 +67,6 @@ class RunCreatures(Action):
     def __init__(self, map_):
         super().__init__(map_)
 
-    #!!!
     @staticmethod
     def make_moves(creatures):
         for creature in creatures:
@@ -79,7 +77,7 @@ class RunCreatures(Action):
         predators, herbivores = self.map.get_entities(Predator, Herbivore)
         self.make_moves(herbivores)
         self.make_moves(predators)
-    #!!!
+
 
 class HitAll(Action):
 
@@ -119,5 +117,3 @@ class GrassAddOptionally(AddOptionally):
                  add_count=GRASS_COUNT,
                  min_count=MIN_GRASS_COUNT):
         super().__init__(map_, grass, add_count, min_count)
-
-

@@ -1,5 +1,4 @@
-from simulation.simulation import *
-
+from simulation.simulation import Simulation
 
 def main():
     simulation = Simulation()

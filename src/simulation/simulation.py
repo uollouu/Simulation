@@ -1,11 +1,9 @@
 import time
 
-
 from .vector2 import *
 from .map import *
 from .renderer import *
 from .actions import *
-
 
 class Simulation:
 
@@ -53,6 +51,3 @@ class Simulation:
                 time.sleep(TURNS_CD)
             except KeyboardInterrupt:
                 break
-
-
-

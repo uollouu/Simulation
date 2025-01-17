@@ -4,11 +4,18 @@ from random import *
 
 from colorama import Back
 
-from .vector2 import *
-
-
 #by default each creature's scope will be speed*ratio
 SCOPE_TO_SPEED_RATIO = 3
+
+#sprites
+EMPTY_SPRITE     = Back.BLACK + " E " + Back.RESET
+
+PREDATOR_SPRITE  = Back.BLUE + " P " + Back.RESET
+HERBIVORE_SPRITE = Back.LIGHTYELLOW_EX + " H " + Back.RESET
+GRASS_SPRITE     = Back.GREEN + " G " + Back.RESET
+ROCK_SPRITE      = Back.RED + " R " + Back.RESET
+TREE_SPRITE      = Back.LIGHTGREEN_EX + " T " + Back.RESET
+
 
 class Entity(ABC):
 
@@ -33,14 +40,14 @@ class Entity(ABC):
 
 
 class Tree(Entity):
-    sprite = Back.LIGHTGREEN_EX + " T " + Back.RESET
+    sprite = TREE_SPRITE
 
     def __init__(self, map_=None, position=None):
         super().__init__(map_, position)
 
 
 class Grass(Entity):
-    sprite = Back.GREEN + " G " + Back.RESET
+    sprite = GRASS_SPRITE
 
     def __init__(self, nutrients, map_=None, position=None):
         super().__init__(map_, position)
@@ -48,7 +55,7 @@ class Grass(Entity):
 
 
 class Rock(Entity):
-    sprite = Back.RED + " R " + Back.RESET
+    sprite = ROCK_SPRITE
 
     def __init__(self, map_=None, position=None):
         super().__init__(map_, position)
@@ -102,7 +109,7 @@ class Creature(Entity, ABC):
 
 
 class Predator(Creature):
-    sprite = Back.BLUE + " P " + Back.RESET
+    sprite = PREDATOR_SPRITE
 
     def __init__(self, health, speed, attack_power, scope=0, map_=None, position=None):
         super().__init__(health, speed, scope, map_, position)
@@ -129,7 +136,7 @@ class Predator(Creature):
 
 
 class Herbivore(Creature):
-    sprite = Back.LIGHTYELLOW_EX + " H " + Back.RESET
+    sprite = HERBIVORE_SPRITE
 
     def __init__(self, health, speed, scope=0, map_=None, position=None):
         super().__init__(health, speed, scope, map_, position)
@@ -149,11 +156,3 @@ class Herbivore(Creature):
             target = self.map.get(target_pos)
             self.heal(target.nutrients)
             target.kill()
-
-
-
-
-
-
-
-

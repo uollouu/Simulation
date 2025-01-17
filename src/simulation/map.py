@@ -3,11 +3,9 @@ from random import *
 
 from .vector2 import *
 
-
 def mix_list(list_):
     ln = len(list_)
-    return [list_.pop(randint(0,ln-i-1)) for i in range(ln) ]
-
+    return [list_.pop(randint(0,ln-i-1)) for i in range(ln)]
 
 class Map:
 
@@ -38,14 +36,6 @@ class Map:
             return appropriate_entities[0]
         return appropriate_entities
 
-    # def get_entities(self, entity_type):
-    #     appropriate_entities = []
-    #     for key in self.map.keys():
-    #         entity = self.get(key)
-    #         if issubclass(type(entity),entity_type):
-    #             appropriate_entities.append(entity)
-    #     return appropriate_entities
-
     def get_count(self, entity_type):
         if entity_type not in self.count.keys():
             return 0
@@ -53,7 +43,6 @@ class Map:
 
     def is_empty(self, position):
         return position not in self.map
-
 
     def add(self, entity, position):
         self.map[position] = entity
@@ -75,13 +64,10 @@ class Map:
         self.count[type(entity)]-=1
         self.empty_cells += 1
 
-
-
     def move(self, old_pos, new_pos):
         entity = self.get(old_pos)
         self.remove(old_pos)
         self.add(entity, new_pos)
-
 
     def is_valid(self, pos):
         return  Vector2(0,0) <= pos < self.size
@@ -148,11 +134,3 @@ class Map:
             return paths_to_empty
 
         return None
-
-
-
-
-
-
-
-
