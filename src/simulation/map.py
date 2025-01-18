@@ -71,7 +71,7 @@ class Map:
         self.add(entity, new_pos)
 
     #check if position is in map bounds
-    def is_valid(self, pos):
+    def is_valid_pos(self, pos):
         return  Vector2(0,0) <= pos < self.size
 
     def get_neighbors(self, pos):
@@ -82,7 +82,7 @@ class Map:
 
                 current_pos = pos + Vector2(x,y)
 
-                if not self.is_valid(current_pos): continue
+                if not self.is_valid_pos(current_pos): continue
                 if self.is_empty(current_pos): continue
 
                 neighbors.append(self.get(current_pos))
@@ -126,7 +126,7 @@ class Map:
 
                     if pos in came_from: continue
                     if pos in queue  : continue
-                    if not self.is_valid(pos): continue
+                    if not self.is_valid_pos(pos): continue
                     if pos_from.distance(pos) > max_distance: continue
 
                     entity_type = type(self.get(pos))
