@@ -103,7 +103,7 @@ class Creature(Entity, Food, ABC):
 
         target = self.get_target_neighbor()
 
-        if target is not None:
+        if target:
             self.interact_with_target(target)
 
     def get_target_neighbor(self):
