@@ -33,7 +33,10 @@ class Entity(ABC):
         self.map = map_
 
     def set_position(self, position):
-        self.position = copy(position)
+        if self.position is None:
+            self.position = copy(position)
+        else:
+            self.position.set(position)
 
     def kill(self):
         self.map.remove(self.position)
@@ -81,18 +84,12 @@ class Creature(Entity, ABC):
         self.map.move(self.position, new_position)
 
     def move_randomly(self):
-        paths = self.map.find_target(self.position, self.scope)
-        len_ = len(paths)
-        if len_ == 0: return
-
-        random_path = paths[randint(0,len_-1)]
-        self.follow_path(random_path)
+        random_path = self.map.build_path(self.position, self.scope)
+        if random_path is not None:
+            self.follow_path(random_path)
 
     def follow_path(self, path):
-        if len(path) <= self.speed:
-            self.move_to(path[-1])
-        else:
-            self.move_to(path[self.speed])
+        self.move_to(path[min(self.speed, len(path)-1)])
 
     def reduce_health(self, points):
         self.health = max(0, self.health - points)
@@ -121,19 +118,18 @@ class Predator(Creature):
         target.reduce_health(self.attack_power)
 
     def make_move(self):
-        res = self.map.find_target(self.position, self.scope, Herbivore)
+        path = self.map.build_path(self.position, self.scope, Herbivore)
 
-        if res is None:
+        if path is None:
             self.move_randomly()
             return
 
-        target_pos, path = res
         self.follow_path(path)
 
-        if self.position == path[-1]:
-            target = self.map.get(target_pos)
-            self.attack(target)
-
+        neighbors = self.map.get_neighbors(self.position)
+        for i in neighbors:
+            if type(i) == Herbivore:
+                self.attack(i)
 
 class Herbivore(Creature):
     sprite = HERBIVORE_SPRITE
@@ -142,17 +138,17 @@ class Herbivore(Creature):
         super().__init__(health, speed, scope, map_, position)
 
     def make_move(self):
-        res = self.map.find_target(self.position, self.scope, Grass)
+        path = self.map.build_path(self.position, self.scope, Grass)
 
-        if res is None:
+        if path is None:
             self.move_randomly()
             return
 
-        target_pos, path = res
-
         self.follow_path(path)
 
-        if self.position == path[-1]:
-            target = self.map.get(target_pos)
-            self.heal(target.nutrients)
-            target.kill()
+        neighbors = self.map.get_neighbors(self.position)
+        for i in neighbors:
+            if type(i) == Grass:
+                target = i
+                self.heal(target.nutrients)
+                target.kill()

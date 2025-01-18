@@ -74,6 +74,21 @@ class Map:
     def is_valid(self, pos):
         return  Vector2(0,0) <= pos < self.size
 
+    def get_neighbors(self, pos):
+        neighbors = []
+        for x in (-1,0,1):
+            for y in (-1,0,1):
+                if x == y == 0: continue
+
+                current_pos = pos + Vector2(x,y)
+
+                if not self.is_valid(current_pos): continue
+                if self.is_empty(current_pos): continue
+
+                neighbors.append(self.get(current_pos))
+
+        return neighbors
+
     def add_randomly(self, entity, count=1):
         if count > self.empty_cells:
             if self.empty_cells == 0: return
@@ -94,15 +109,12 @@ class Map:
 
                     if count == 0: return
 
-    #returns target position and path from anchor to target
-    #if target_type specified
-    #otherwise returns list of paths to each available empty cell
-    def find_target(self, anchor_pos, scope, target_type=type(None)):
-        max_distance = Vector2(scope, scope)
-        current_pos = anchor_pos
-        came_from = {}
-        came_from[anchor_pos] = None
-        queue = [anchor_pos]
+    #returns path to target if target_type specified
+    #otherwise returns random path
+    def build_path(self, pos_from, max_distance, target_type=type(None)):
+        current_pos = pos_from
+        came_from = {pos_from: None}
+        queue = [pos_from]
 
         paths_to_empty = []
 
@@ -115,8 +127,7 @@ class Map:
                     if pos in came_from: continue
                     if pos in queue  : continue
                     if not self.is_valid(pos): continue
-                    if anchor_pos.distance(pos) > scope: continue
-
+                    if pos_from.distance(pos) > max_distance: continue
 
                     entity_type = type(self.get(pos))
                     if issubclass(entity_type, target_type):
@@ -127,15 +138,20 @@ class Map:
                             cur = came_from[cur]
 
                         path = path[::-1]
+
                         if target_type is not type(None):
-                            return pos, path
+                            return path
 
                         paths_to_empty.append(path)
+
                     if self.is_empty(pos):
                         queue.append(pos)
+
                     came_from[pos] = current_pos
 
-        if target_type is type(None):
-            return paths_to_empty
+        len_paths = len(paths_to_empty)
+        if target_type is type(None) and \
+                len_paths != 0:
+            return paths_to_empty[randint(0, len_paths-1)]
 
         return None
