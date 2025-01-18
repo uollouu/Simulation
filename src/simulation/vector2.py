@@ -4,6 +4,15 @@ class Vector2:
         self.x = x
         self.y = y
 
+    #args is either Vector2 or 2 ints
+    def set(self, *args):
+        if len(args) == 1:
+            self.x = args[0].x
+            self.y = args[0].y
+        else:
+            self.x = args[0]
+            self.y = args[1]
+
     def distance(self, other):
         return max(abs(self.x-other.x), abs(self.y-other.y))
 
