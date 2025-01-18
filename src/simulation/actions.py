@@ -105,7 +105,9 @@ class AddOptionally(Action):
 
 class HerbivoresAddOptionally(AddOptionally):
 
-    def __init__(self, map_, herbivore=HERBIVORE,
+    def __init__(self,
+                 map_,
+                 herbivore=HERBIVORE,
                  add_count=HERBIVORES_COUNT,
                  min_count=MIN_HERBIVORES_COUNT):
         super().__init__(map_, herbivore, add_count, min_count)
@@ -113,7 +115,9 @@ class HerbivoresAddOptionally(AddOptionally):
 
 class GrassAddOptionally(AddOptionally):
 
-    def __init__(self, map_, grass=GRASS,
+    def __init__(self,
+                 map_,
+                 grass=GRASS,
                  add_count=GRASS_COUNT,
                  min_count=MIN_GRASS_COUNT):
         super().__init__(map_, grass, add_count, min_count)
