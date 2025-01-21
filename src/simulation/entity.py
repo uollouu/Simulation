@@ -1,19 +1,9 @@
 from abc import ABC, abstractmethod
 from copy import copy
-
-from colorama import Back
+from typing import ClassVar
 
 #by default each creature's scope will be speed*ratio
 SCOPE_TO_SPEED_RATIO = 3
-
-#sprites
-EMPTY_SPRITE     = Back.BLACK + " E " + Back.RESET
-
-PREDATOR_SPRITE  = Back.BLUE + " P " + Back.RESET
-HERBIVORE_SPRITE = Back.LIGHTYELLOW_EX + " H " + Back.RESET
-GRASS_SPRITE     = Back.GREEN + " G " + Back.RESET
-ROCK_SPRITE      = Back.RED + " R " + Back.RESET
-TREE_SPRITE      = Back.LIGHTGREEN_EX + " T " + Back.RESET
 
 
 class Entity(ABC):
@@ -22,12 +12,6 @@ class Entity(ABC):
     def __init__(self, map_=None, position=None):
         self.map = map_
         self.position = copy(position)
-
-    @classmethod
-    @property
-    @abstractmethod
-    def sprite(cls):
-        raise NotImplementedError
 
     def set_map(self, map_):
         self.map = map_
@@ -38,7 +22,7 @@ class Entity(ABC):
         else:
             self.position.set(position)
 
-    def get_neighbors(self):
+    def get_neighbors(self) -> list[object]:
         return self.map.get_neighbors(self.position)
 
     def kill(self):
@@ -46,14 +30,12 @@ class Entity(ABC):
 
 
 class Tree(Entity):
-    sprite = TREE_SPRITE
 
     def __init__(self, map_=None, position=None):
         super().__init__(map_, position)
 
 
 class Rock(Entity):
-    sprite = ROCK_SPRITE
 
     def __init__(self, map_=None, position=None):
         super().__init__(map_, position)
@@ -67,7 +49,6 @@ class Food(ABC):
 
 
 class Grass(Entity, Food):
-    sprite = GRASS_SPRITE
 
     def __init__(self, nutrients, map_=None, position=None):
         Entity.__init__(self, map_, position)
@@ -88,12 +69,6 @@ class Creature(Entity, Food, ABC):
         if self.scope == 0:
             self.scope = self.speed * SCOPE_TO_SPEED_RATIO
 
-    @classmethod
-    @property
-    @abstractmethod
-    def target_type(cls):
-        raise NotImplementedError
-
     @abstractmethod
     def interact_with_target(self, target):
         pass
@@ -109,7 +84,7 @@ class Creature(Entity, Food, ABC):
     def get_target_neighbor(self):
         neighbors = self.get_neighbors()
         for entity in neighbors:
-            if type(entity) == self.target_type:
+            if self.is_target(entity):
                 return entity
         return None
 
@@ -150,13 +125,15 @@ class Creature(Entity, Food, ABC):
         self._is_alive = False
         super(Creature, self).kill()
 
+    def is_target(self, entity):
+        return type(entity) == self.target_type
+
     def is_dead(self):
         return not self._is_alive
 
 
 class Herbivore(Creature):
-    sprite = HERBIVORE_SPRITE
-    target_type = Grass
+    target_type : ClassVar[object] = Grass
 
     def __init__(self, health, speed, scope=0, map_=None, position=None):
         super().__init__(health, speed, scope, map_, position)
@@ -166,8 +143,7 @@ class Herbivore(Creature):
 
 
 class Predator(Creature):
-    sprite = PREDATOR_SPRITE
-    target_type = Herbivore
+    target_type : ClassVar[object] = Herbivore
 
     def __init__(self, health, speed, attack_power, scope=0, map_=None, position=None):
         super().__init__(health, speed, scope, map_, position)
