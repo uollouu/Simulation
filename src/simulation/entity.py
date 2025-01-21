@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from copy import copy
-from typing import ClassVar
+from typing import ClassVar, Protocol
 
 #by default each creature's scope will be speed*ratio
 SCOPE_TO_SPEED_RATIO = 3
@@ -8,7 +8,6 @@ SCOPE_TO_SPEED_RATIO = 3
 
 class Entity(ABC):
 
-    @abstractmethod
     def __init__(self, map_=None, position=None):
         self.map = map_
         self.position = copy(position)
@@ -41,29 +40,25 @@ class Rock(Entity):
         super().__init__(map_, position)
 
 
-class Food(ABC):
-
-    @abstractmethod
-    def __init__(self, nutrients : int):
-        self.nutrients = nutrients
+class Food(Protocol):
+    nutrients : int
 
 
 class Grass(Entity, Food):
 
     def __init__(self, nutrients, map_=None, position=None):
-        Entity.__init__(self, map_, position)
-        Food.__init__(self, nutrients)
+        super().__init__(map_, position)
+        self.nutrients = nutrients
 
 
-class Creature(Entity, Food, ABC):
+class Creature(Entity, Food):
 
-    @abstractmethod
     def __init__(self, health, speed, scope=0, map_=None, position=None):
-        Entity.__init__(self, map_, position)
-        Food.__init__(self, health)
-        self.max_health = self.health = health
+        super().__init__(map_, position)
+        self.max_health = self.health = self.nutrients = health
         self.speed = speed
         self._is_alive = True
+
         self.scope = scope
 
         if self.scope == 0:
