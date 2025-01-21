@@ -1,5 +1,5 @@
 from .vector2 import Vector2
-from .entity import EMPTY_SPRITE
+from .sprites import get_sprite
 
 class Matrix:
 
@@ -42,10 +42,8 @@ class Renderer:
         print()
 
     def get_rendered_cell(self, position):
-        if self.map.is_empty(position):
-            cell = EMPTY_SPRITE
-        else:
-            cell = self.map.get(position).sprite
+        entity = self.map.get(position)
+        cell = get_sprite(entity)
         return cell
 
     def render_map(self):
