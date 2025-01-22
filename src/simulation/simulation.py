@@ -26,8 +26,7 @@ class Simulation:
             HerbivoresAddOptionally(self.map)
         )
 
-    @staticmethod
-    def act(actions_):
+    def act(self, actions_):
         for action in actions_:
             action.perform()
 
