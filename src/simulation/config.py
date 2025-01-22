@@ -1,5 +1,5 @@
-from .vector2 import Vector2
-from .entity import *
+from simulation.vector2 import Vector2
+from simulation.entity import Predator, Herbivore, Rock, Grass, Tree
 
 TURNS_CD = 0.3 #time between each map turn
 TURN_DAMAGE = 3 #damage to entities per turn

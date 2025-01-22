@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 
-from .config import *
+from simulation.entity import Creature
+from simulation.config import *
 
 class Action(ABC):
 

@@ -1,6 +1,6 @@
 from colorama import Back, Fore
 
-from .entity import *
+from simulation.entity import *
 
 sprites_table = {
     type(None): Back.BLACK + Fore.BLACK + " E " + Fore.RESET + Back.RESET,

@@ -1,5 +1,5 @@
-from .vector2 import Vector2
-from .sprites import get_sprite
+from simulation.vector2 import Vector2
+from simulation.sprites import get_sprite
 
 class Matrix:
 

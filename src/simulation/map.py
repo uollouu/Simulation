@@ -2,7 +2,7 @@ from copy import copy
 from random import randint, random
 from itertools import product
 
-from .vector2 import Vector2
+from simulation.vector2 import Vector2
 
 def mix_list(list_):
     ln = len(list_)

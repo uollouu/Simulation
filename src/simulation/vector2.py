@@ -54,9 +54,6 @@ class Vector2:
     def __hash__(self):
         return hash((self.x,self.y))
 
-    def __iter__(self):
-        return iter([self.x,self.y])
-
     def __eq__(self,other):
         if not isinstance(other, Vector2):
             return NotImplemented

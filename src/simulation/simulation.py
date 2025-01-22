@@ -1,8 +1,8 @@
 import time
 
-from .map import Map
-from .renderer import Renderer
-from .actions import *
+from simulation.map import Map
+from simulation.renderer import Renderer
+from simulation.actions import *
 
 class Simulation:
 
