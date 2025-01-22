@@ -31,6 +31,7 @@ class Simulation:
             action.perform()
 
     def init_simulation(self):
+        self.is_inited = True
         self.act(self.init_actions)
 
     def next_turn(self):
@@ -48,3 +49,5 @@ class Simulation:
                 time.sleep(TURNS_CD)
             except KeyboardInterrupt:
                 break
+            else:
+                time.sleep(TURNS_CD)
