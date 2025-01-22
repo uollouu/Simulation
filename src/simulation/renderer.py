@@ -34,8 +34,9 @@ class Renderer:
         self.map = map_
         self.matrix = Matrix(map_.size)
 
-    def display(self):
+    def display(self, timer):
         print()
+        print(f"Iteration {timer}:")
         self.render_map()
         self.matrix.print()
         self.matrix.clear()

@@ -35,8 +35,7 @@ class Simulation:
 
     def next_turn(self):
         self.act(self.turn_actions)
-        print(f"Iteration {self.timer}:")
-        self.renderer.display()
+        self.renderer.display(self.timer)
         self.timer+=1
 
     def start_simulation(self):
