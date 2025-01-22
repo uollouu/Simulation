@@ -7,16 +7,8 @@ class Vector2:
 
     #args is either Vector2 or 2 ints
     def set(self, *args):
-        if len(args) == 1:
-            vector = args[0]
-
-            if not isinstance(vector, Vector2):
-                return NotImplemented
-
-            self.x = args[0].x
-            self.y = args[0].y
-        elif len(args) == 2:
-            x, y = args[0:2]
+        if len(args) == 2:
+            x, y = args
 
             if not(isinstance(x,int) and isinstance(y,int)):
                 return NotImplemented
@@ -24,12 +16,35 @@ class Vector2:
             self.x = args[0]
             self.y = args[1]
         else:
-            return NotImplemented
+            args = args[0]
+
+            if len(args) < 2:
+                return NotImplemented
+
+            if isinstance(args, tuple) or \
+                isinstance(args, list) or \
+                isinstance(args, Vector2):
+
+                self.set(args[0],args[1])
+            else:
+                return NotImplemented
 
     def distance(self, other):
         if not isinstance(other, Vector2):
             return NotImplemented
         return max(abs(self.x-other.x), abs(self.y-other.y))
+
+    def __getitem__(self, item):
+        match item:
+            case 0: return self.x
+            case 1: return self.y
+            case _: return NotImplemented
+
+    def __iter__(self):
+        return iter([self.x, self.y])
+
+    def __len__(self):
+        return 2
 
     def __add__(self, other):
         if not isinstance(other, Vector2):
